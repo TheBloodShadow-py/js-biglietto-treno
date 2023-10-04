@@ -1,11 +1,8 @@
 const kmPirce = 0.21;
 const under18Discount = 20 / 100;
 const over65Discount = 40 / 100;
-const ticketPrice = document.getElementById("ticketPrice");
+const domTicketPrice = document.getElementById("ticketPrice");
 const euro = "&euro;";
-
-let ticketKm;
-let userAge;
 
 function getPrice() {
   let ticketKm = parseFloat(document.getElementById("kilometers").value);
@@ -13,24 +10,21 @@ function getPrice() {
 
   if (!userAge || !ticketKm) {
     alert("Non puoi lasciare i campi vuoti o inserire del testo");
-    return false;
+    return;
   }
 
-  if (userAge < 18) {
-    ticketPrice.innerHTML =
-      (ticketKm * kmPirce - ticketKm * kmPirce * under18Discount).toFixed(2) +
-      euro;
-    return true;
-  } else if (userAge > 65) {
-    ticketPrice.innerHTML =
-      (ticketKm * kmPirce - ticketKm * kmPirce * over65Discount).toFixed(2) +
-      euro;
-    return true;
-  } else if (userAge < 65 && userAge > 18) {
-    ticketPrice.innerHTML = (ticketKm * kmPirce).toFixed(2) + euro;
-    return true;
-  } else {
-    ticketPrice.innerHTML = "Si è verificato un errore... riprovare";
-    return false;
+  if (userAge <= 0 || ticketKm <= 0) {
+    alert("Non puoi inserire numeri inferiori a 0");
+    return;
   }
+
+  let ticketPrice = ticketKm * kmPirce;
+
+  if (userAge < 18) {
+    ticketPrice = ticketKm * kmPirce - ticketKm * kmPirce * under18Discount;
+  } else if (userAge > 65) {
+    ticketPrice = ticketKm * kmPirce - ticketKm * kmPirce * over65Discount;
+  }
+
+  domTicketPrice.innerHTML = ticketPrice.toFixed(2) + euro; //
 }
